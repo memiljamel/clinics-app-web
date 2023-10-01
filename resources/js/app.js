@@ -4,8 +4,9 @@ import.meta.glob([
 ]);
 import './bootstrap';
 import { 
-  Ripple, 
+  Ripple,
   initTE,
 } from 'tw-elements';
+import './toggle-password.js';
 
 initTE({ Ripple });
