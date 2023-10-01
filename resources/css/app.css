@@ -82,6 +82,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    @apply h-full p-0 m-0;
+  }
+
+  body {
+    @apply bg-anti-flash-white dark:bg-chinese-black;
+  }
+}
+
 @layer components {
   .headline-1 {
     @apply font-roboto font-light text-8xl tracking-[-1.5px];
