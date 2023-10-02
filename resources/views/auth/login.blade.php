@@ -51,7 +51,7 @@
           </div>
         </div>
 
-        <div class="flex flex-col flex-grow w-full h-auto p-4 m-0 relative lg:px-6">
+        <div class="flex flex-col flex-grow w-full min-h-[56px] h-auto p-4 m-0 relative lg:px-6">
           <div class="block w-auto h-auto p-0 m-0 absolute left-1/2 bottom-4 -translate-x-1/2 z-auto">
             <span class="inline-block w-auto h-auto p-0 m-0 caption text-black/[0.60] align-middle whitespace-nowrap dark:text-white/[0.60]">
               &copy Clinics App {{ now()->year }}, All rights reserved.
