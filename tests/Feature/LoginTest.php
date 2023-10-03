@@ -43,69 +43,78 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function asserting_that_administrator_failed_to_authenticate_without_a_valid_email(): void
-    {
-        $user = User::factory()->administrator()->create([
-            'email' => 'email@domain.com',
-            'password' => 'password',
-        ]);
-
-        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
-            'email' => 'invalid_email',
-            'password' => 'password',
-        ]);
-        $response->assertSessionHasErrors(['email']);
-
-        $this->assertNotEquals('invalid_email', $user->email);
-        $this->assertGuest();
-    }
-
-    /** @test */
-    public function asserting_that_administrator_failed_to_authenticate_without_a_valid_password(): void
-    {
-        $user = User::factory()->administrator()->create([
-            'email' => 'email@domain.com',
-            'password' => 'password',
-        ]);
-
-        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
-            'email' => 'email@domain.com',
-            'password' => 'invalid_password',
-        ]);
-        $response->assertSessionHasErrors(['email']);
-
-        $this->assertNotEquals('invalid_password', $user->password);
-        $this->assertGuest();
-    }
-
-    /** @test */
-    public function asserting_that_administrator_failed_to_authenticate_without_a_valid_email_and_password(): void
-    {
-        $user = User::factory()->administrator()->create([
-            'email' => 'email@domain.com',
-            'password' => 'password',
-        ]);
-
-        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
-            'email' => 'invalid_email',
-            'password' => 'invalid_password',
-        ]);
-        $response->assertSessionHasErrors(['email']);
-
-        $this->assertNotEquals('invalid_email', $user->email);
-        $this->assertNotEquals('invalid_password', $user->password);
-        $this->assertGuest();
-    }
-
-    /** @test */
     public function asserting_that_administrator_failed_to_authenticate_with_blank_data(): void
     {
         $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
             'email' => null,
             'password' => null,
         ]);
-        $response->assertSessionHasErrors(['email', 'password']);
+        $response->assertSessionHasErrors([
+            'email' => __('validation.required', ['attribute' => 'email']),
+            'password' => __('validation.required', ['attribute' => 'password']),
+        ]);
 
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function asserting_that_administrator_failed_to_authenticate_with_invalid_email(): void
+    {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
+            'email' => 'invalid_email',
+            'password' => 'password',
+        ]);
+        $response->assertSessionHasErrors([
+            'email' => __('validation.email', ['attribute' => 'email']),
+        ]);
+
+        $this->assertNotEquals('invalid_email', $user->email);
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function asserting_that_administrator_failed_to_authenticate_with_invalid_password(): void
+    {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
+            'email' => 'email@domain.com',
+            'password' => 'invalid_password',
+        ]);
+        $response->assertSessionHasErrors([
+            'email' => __('auth.failed', ['attribute' => 'email']),
+        ]);
+
+        $this->assertNotEquals('invalid_password', $user->password);
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function asserting_that_administrator_failed_to_authenticate_with_invalid_email_and_password(): void
+    {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
+            'email' => 'invalid_email',
+            'password' => 'invalid_password',
+        ]);
+        $response->assertSessionHasErrors([
+            'email' => __('validation.email', ['attribute' => 'email']),
+        ]);
+
+        $this->assertNotEquals('invalid_email', $user->email);
+        $this->assertNotEquals('invalid_password', $user->password);
         $this->assertGuest();
     }
 
