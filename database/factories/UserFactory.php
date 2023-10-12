@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\Role;
+use App\Enums\UserType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -47,7 +47,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => Role::Administrator->value,
+                'type' => UserType::Administrator->value,
             ];
         });
     }
@@ -59,7 +59,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role' => Role::Patient->value,
+                'type' => UserType::Patient->value,
             ];
         });
     }
