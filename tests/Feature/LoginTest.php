@@ -45,6 +45,11 @@ class LoginTest extends TestCase
     /** @test */
     public function asserting_that_administrator_failed_to_authenticate_with_blank_data(): void
     {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+            'password' => 'password',
+        ]);
+
         $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
             'email' => null,
             'password' => null,
@@ -54,6 +59,8 @@ class LoginTest extends TestCase
             'password' => __('validation.required', ['attribute' => 'password']),
         ]);
 
+        $this->assertNotEquals(null, $user->email);
+        $this->assertNotEquals(null, $user->email);
         $this->assertGuest();
     }
 
