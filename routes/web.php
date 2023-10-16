@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +20,9 @@ Route::middleware('guest')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('/login', [LoginController::class, 'index'])->name('login.index');
         Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('login.authenticate');
+        Route::get('/forgot-password', [ForgotController::class, 'index'])->name('forgot.index');
+        Route::post('/forgot-password/send', [ForgotController::class, 'send'])->name('forgot.send');
+        Route::get('/reset-password', [ResetController::class, 'index'])->name('reset.index');
+        Route::post('/reset-password/recovery', [ResetController::class, 'recovery'])->name('reset.recovery');
     });
 });

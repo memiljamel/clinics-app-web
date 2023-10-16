@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\UserType;
+use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -79,4 +81,27 @@ class User extends Authenticatable
         'password' => 'hashed',
         'type' => UserType::class,
     ];
+
+    /**
+     * Scope a query to only include users of a given type.
+     */
+    public function scopeOfType(Builder $query, string $type): void
+    {
+        $query->where('type', $type);
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = route('reset.index', [
+            'token' => $token,
+            'email' => $this->getEmailForPasswordReset(),
+        ]);
+
+        $this->notify(new ResetPasswordNotification($url));
+    }
 }
