@@ -1,5 +1,5 @@
 const btnTogglePasswordList = [].slice.call(
-  document.querySelectorAll('button[name="visibility"]')
+  document.querySelectorAll('[data-te-container="toggle-password"]')
 );
 
 btnTogglePasswordList.map((btnTogglePasswordItem) => {
