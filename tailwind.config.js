@@ -29,7 +29,22 @@ module.exports = {
         'anti-flash-white': '#F2F2F2',
         'chinese-black': '#121212',
         'charleston-green': '#272727',
+        'dark-charcoal': '#323232',
+        'lotion': '#FAFAFA',
         'errors': '#F44336',
+      },
+      keyframes: {
+        fadein: {
+          'from': { bottom: '0', opacity: '0' },
+          'to': { bottom: '32px', opacity: '1' },
+        },
+        fadeout: {
+          'from': { bottom: '32px', opacity: '1' },
+          'to': { bottom: '0', opacity: '0' },
+        },
+      },
+      animation: {
+        toast: 'fadein 0.5s, fadeout 0.5s 3.0s',
       },
     },
   },
