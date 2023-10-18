@@ -1,7 +1,14 @@
+@props([
+  'id',
+  'name',
+  'label',
+  'value',
+])
+
 <div class="block p-0 m-0 relative">
   <div class="block w-full min-w-[280px] h-11 p-0 mb-2 relative">
-    <input @class(["peer caret-primary w-full h-full bg-transparent text-black/[0.87] font-roboto font-normal outline outline-0 focus:outline-0 disabled:border-0 transition-all border-b placeholder-shown:border-black/[0.12] text-base tracking-normal pt-4 pb-1.5 border-black/[0.12] focus:border-primary dark:text-white dark:disabled:placeholder-shown:boder-white/[0.12] dark:border-white/[0.12]", "focus:border-errors" => $errors->get($name)]) {{ $attributes->merge(['type' => 'text']) }} id="{{ $id }}" name="{{ $name }}" value="{{ $value }}" placeholder="" {{ $attributes }} />
-    <label @class(["flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-black/[0.38] leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-black/[0.38] transition-all -top-1.5 peer-placeholder-shown:text-sm text-xs peer-focus:text-xs after:content[''] after:block after:w-full after:absolute after:-bottom-1.5 left-0 after:border-b-2 after:scale-x-0 peer-focus:after:scale-x-100 after:transition-transform after:duration-300 peer-placeholder-shown:leading-[4.25] text-black/[0.38] peer-focus:text-primary after:border-primary peer-focus:after:border-primary dark:peer-placeholder-shown:text-white/[0.38] dark:peer-disabled:peer-placeholder-shown:text-white/[0.38] dark:text-white/[0.38] dark:peer-focus:text-primary", "peer-focus:text-errors after:border-errors peer-focus:after:border-errors" => $errors->get($name)]) for="{{ $id }}">
+    <input {{ $attributes->class(['peer caret-primary w-full h-full bg-transparent text-black/[0.87] font-roboto font-normal outline outline-0 focus:outline-0 disabled:border-0 transition-all border-b placeholder-shown:border-black/[0.12] text-base tracking-normal pt-4 pb-1.5 border-black/[0.12] focus:border-primary dark:text-white dark:disabled:placeholder-shown:boder-white/[0.12] dark:border-white/[0.12]', '!caret-errors focus:!border-errors' => $errors->get($name)]) }} {{ $attributes->merge(['type' => 'text']) }} id="{{ $id }}" name="{{ $name }}" value="{{ $value }}" placeholder="" {{ $attributes }} />
+    <label {{ $attributes->class(['flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-black/[0.38] leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-black/[0.38] transition-all -top-1.5 peer-placeholder-shown:text-sm text-xs peer-focus:text-xs after:content[""] after:block after:w-full after:absolute after:-bottom-1.5 left-0 after:border-b-2 after:scale-x-0 peer-focus:after:scale-x-100 after:transition-transform after:duration-300 peer-placeholder-shown:leading-[4.25] text-black/[0.38] peer-focus:text-primary after:border-primary peer-focus:after:border-primary dark:peer-placeholder-shown:text-white/[0.38] dark:peer-disabled:peer-placeholder-shown:text-white/[0.38] dark:text-white/[0.38] dark:peer-focus:text-primary', 'peer-focus:!text-errors after:!border-errors peer-focus:after:!border-errors' => $errors->get($name)]) }} for="{{ $id }}">
       {{ $label }}
     </label>
 
