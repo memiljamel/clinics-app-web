@@ -33,7 +33,7 @@
 
           <div class="flex justify-between content-start flex-nowrap gap-4 w-full max-w-3xl h-auto p-0 my-0 relative sm:flex-nowrap">
             <div class="inline-block min-w-0 w-full h-auto p-0 m-0 relative sm:w-6/12">
-              <x-forms.checkbox label="Remember me" id="remember" name="remember" value="1" />
+              <x-forms.checkbox label="Remember me" id="remember" name="remember" :value="true" />
             </div>
             <div class="inline-block min-w-0 w-full h-auto p-0 m-0 text-right relative sm:w-6/12">
               <a class="inline-block w-auto h-auto p-0 m-0 subtitle-1 text-primary no-underline outline-none cursor-pointer hover:underline focus:underline active:underline" href="">
@@ -45,9 +45,9 @@
 
         <div class="flex flex-col flex-grow-0 w-full h-auto px-4 my-2 relative lg:px-6">
           <div class="block w-full max-w-3xl h-auto p-0 my-0 relative">
-            <x-contained-button type="submit">
+            <x-forms.button class="w-full" type="submit">
               Login
-            </x-contained-button>
+            </x-forms.button>
           </div>
         </div>
 
