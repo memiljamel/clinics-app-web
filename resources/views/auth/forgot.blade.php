@@ -34,9 +34,9 @@
 
         <div class="flex flex-col flex-grow-0 w-full h-auto px-4 my-2 relative lg:px-6">
           <div class="block w-full max-w-3xl h-auto p-0 my-0 relative">
-            <x-contained-button type="submit">
+            <x-forms.button class="w-full" type="submit">
               Send Password Reset Link
-            </x-contained-button>
+            </x-forms.button>
           </div>
         </div>
 

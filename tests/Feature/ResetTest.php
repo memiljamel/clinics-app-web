@@ -84,7 +84,7 @@ class ResetTest extends TestCase
 
         $token = Password::createToken($user);
 
-        sleep(61);
+        $this->travel(61)->second();
 
         $response = $this->get(route('reset.index', [
             'token' => $token,
@@ -245,7 +245,7 @@ class ResetTest extends TestCase
 
         $token = Password::createToken($user);
 
-        sleep(61);
+        $this->travel(61)->second();
 
         $response = $this->from(route('reset.index', [
             'token' => $token,
