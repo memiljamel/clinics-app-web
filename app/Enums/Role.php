@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum UserType: string
+enum Role: string
 {
     /**
      * define the user as administrator.
