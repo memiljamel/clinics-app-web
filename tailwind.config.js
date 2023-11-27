@@ -25,13 +25,15 @@ module.exports = {
         '24dp': '0 24px 38px rgba(0, 0, 0, 0.14), 0 9px 46px rgba(0, 0, 0, 0.12), 0 11px 15px rgba(0, 0, 0, 0.20)',
       },
       colors: {
-        'primary': '#E34B36',
-        'anti-flash-white': '#F2F2F2',
-        'chinese-black': '#121212',
-        'charleston-green': '#272727',
-        'dark-charcoal': '#323232',
-        'lotion': '#FAFAFA',
-        'errors': '#F44336',
+        'primary': '#E34B36', // #E34B36
+        'anti-flash-white': '#F2F2F2', // background light
+        'chinese-black': '#121212', // background dark
+        'charleston-green': '#272727', // card dark
+        'dark-charcoal': '#323232', // toast|tooltip light
+        'lotion': '#FAFAFA', // toast|tooltip dark
+        'chinese-white': '#E0E0E0', // border light
+        'dark-liver': '#515151', // border dark
+        'error': '#DC2626',
       },
       keyframes: {
         fadein: {
@@ -50,6 +52,7 @@ module.exports = {
   },
   darkMode: 'class',
   plugins: [
-    require("tw-elements/dist/plugin.cjs"),
+    require('tw-elements/dist/plugin.cjs'),
+    require('tailwind-clip-path'),
   ],
 };
