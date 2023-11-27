@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Policies\UserPolicy;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryImpl;
 use App\Services\AuthService;
 use App\Services\AuthServiceImpl;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -16,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public $singletons = [
         AuthService::class => AuthServiceImpl::class,
+        UserRepository::class => UserRepositoryImpl::class,
     ];
 
     /**
