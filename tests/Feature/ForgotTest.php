@@ -117,6 +117,29 @@ class ForgotTest extends TestCase
     }
 
     /** @test */
+    public function asserting_that_only_administrator_can_send_password_reset_link(): void
+    {
+        User::factory()->create([
+            'email' => 'email@domain.com',
+        ]);
+
+        Notification::fake();
+
+        $response = $this->from(route('forgot.index'))->post(route('forgot.send'), [
+            'email' => 'email@domain.com',
+        ]);
+        $response->assertRedirect(route('forgot.index'));
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors([
+            'email' => __('passwords.user', ['attribute' => 'email']),
+        ]);
+
+        Notification::assertNothingSent();
+
+        $this->assertGuest();
+    }
+
+    /** @test */
     public function asserting_that_administrator_cannot_display_the_forgot_page_after_authenticated(): void
     {
         $user = User::factory()->administrator()->create();

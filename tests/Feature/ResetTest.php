@@ -41,7 +41,7 @@ class ResetTest extends TestCase
 
         Password::createToken($user);
 
-        $response = $this->get(route('reset.index'));
+        $response = $this->get(route('reset.index', []));
         $response->assertRedirect(route('forgot.index'));
         $response->assertStatus(302);
         $response->assertSessionHas([
@@ -133,6 +133,32 @@ class ResetTest extends TestCase
         $response = $this->get(route('reset.index', [
             'token' => $token,
             'email' => 'email@doesnot.exists',
+        ]));
+        $response->assertRedirect(route('forgot.index'));
+        $response->assertStatus(302);
+        $response->assertSessionHas([
+            'message' => __('passwords.token'),
+        ]);
+
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function asserting_that_only_administrator_can_display_the_reset_page(): void
+    {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+        ]);
+
+        $token = Password::createToken($user);
+
+        User::factory()->create([
+            'email' => 'users@domain.com',
+        ]);
+
+        $response = $this->get(route('reset.index', [
+            'token' => $token,
+            'email' => 'users@domain.com',
         ]));
         $response->assertRedirect(route('forgot.index'));
         $response->assertStatus(302);
@@ -419,6 +445,41 @@ class ResetTest extends TestCase
         $response->assertSessionDoesntHaveErrors(['token', 'email']);
         $response->assertSessionHasErrors([
             'password' => __('validation.confirmed', ['attribute' => 'password', 'max' => 70]),
+        ]);
+
+        $this->assertGuest();
+    }
+
+    /** @test */
+    public function asserting_that_only_administrator_can_reset_password(): void
+    {
+        $user = User::factory()->administrator()->create([
+            'email' => 'email@domain.com',
+        ]);
+
+        $token = Password::createToken($user);
+
+        User::factory()->create([
+            'email' => 'users@domain.com',
+        ]);
+
+        $response = $this->from(route('reset.index', [
+            'token' => $token,
+            'email' => 'email@domain.com',
+        ]))->post(route('reset.recovery'), [
+            'token' => $token,
+            'email' => 'users@domain.com',
+            'password' => 'new_password',
+            'password_confirmation' => 'new_password',
+        ]);
+        $response->assertRedirect(route('reset.index', [
+            'token' => $token,
+            'email' => 'email@domain.com',
+        ]));
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors(['token', 'password']);
+        $response->assertSessionHasErrors([
+            'email' => __('passwords.user', ['attribute' => 'email']),
         ]);
 
         $this->assertGuest();
