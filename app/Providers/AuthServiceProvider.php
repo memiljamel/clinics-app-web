@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider implements DeferrableProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        User::class => UserPolicy::class,
     ];
 
     /**

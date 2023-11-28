@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\UserType;
+use App\Enums\Role;
 use App\Notifications\ResetPasswordNotification;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Vite;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -56,9 +59,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'avatar',
         'name',
         'email',
         'password',
+        'phone_number',
+        'role',
     ];
 
     /**
@@ -79,15 +85,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'type' => UserType::class,
+        'role' => Role::class,
     ];
 
     /**
-     * Scope a query to only include users of a given type.
+     * Get the user's avatar URL.
      */
-    public function scopeOfType(Builder $query, string $type): void
+    protected function avatarUrl(): Attribute
     {
-        $query->where('type', $type);
+        return Attribute::make(
+            get: fn (?string $value, array $attrs) => ! is_null($attrs['avatar']) && Storage::disk('public')->exists($attrs['avatar'])
+                ? asset("storage/{$attrs['avatar']}")
+                : Vite::asset('resources/images/avatar.png')
+        );
     }
 
     /**
@@ -103,5 +113,21 @@ class User extends Authenticatable
         ]);
 
         $this->notify(new ResetPasswordNotification($url));
+    }
+
+    /**
+     * Get the profile associated with the user.
+     */
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the patient associated with the user.
+     */
+    public function patient(): HasOne
+    {
+        return $this->hasOne(Patient::class, 'user_id', 'id');
     }
 }
