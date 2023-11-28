@@ -31,4 +31,9 @@ interface UserRepository
      * Remove the specified resource from storage.
      */
     public function delete(User $user): bool;
+
+    /**
+     * Remove the specified resource from storage based on the given conditions.
+     */
+    public function deleteWhere(array $where): bool;
 }

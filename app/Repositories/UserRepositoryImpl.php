@@ -97,4 +97,14 @@ class UserRepositoryImpl implements UserRepository
     {
         return $user->delete();
     }
+
+    /**
+     * Remove the specified resource from storage based on the given conditions.
+     */
+    public function deleteWhere(array $where): bool
+    {
+        return $this->user->newQuery()
+            ->where($where)
+            ->delete();
+    }
 }
