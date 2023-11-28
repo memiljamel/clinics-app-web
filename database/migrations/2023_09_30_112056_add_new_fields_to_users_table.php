@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('phone_number', 14)->nullable();
-            $table->text('photo')->nullable();
-            $table->enum('type', [UserType::Administrator->value, UserType::Patient->value])->default(UserType::Patient->value);
+            $table->string('role');
+            $table->string('avatar')->nullable();
         });
     }
 
@@ -26,8 +25,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('phone_number');
-            $table->dropColumn('photo');
-            $table->dropColumn('type');
+            $table->dropColumn('role');
+            $table->dropColumn('avatar');
         });
     }
 };
