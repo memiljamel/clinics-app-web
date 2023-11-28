@@ -203,6 +203,29 @@ class LoginTest extends TestCase
     }
 
     /** @test */
+    public function asserting_that_only_administrator_can_authenticate(): void
+    {
+        User::factory()->create([
+            'email' => 'email@domain.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->from(route('login.index'))->post(route('login.authenticate'), [
+            'email' => 'email@domain.com',
+            'password' => 'password',
+            'remember' => true,
+        ]);
+        $response->assertRedirect(route('login.index'));
+        $response->assertStatus(302);
+        $response->assertSessionDoesntHaveErrors(['password', 'remember']);
+        $response->assertSessionHasErrors([
+            'email' => __('auth.failed', ['attribute' => 'email']),
+        ]);
+
+        $this->assertGuest();
+    }
+
+    /** @test */
     public function asserting_that_administrator_cannot_display_the_login_page_after_authenticated(): void
     {
         $user = User::factory()->administrator()->create();

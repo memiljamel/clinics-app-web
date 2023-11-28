@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserType;
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
@@ -35,9 +35,9 @@ class LoginController extends Controller
         $password = $request->input('password');
         $remember = $request->boolean('remember');
 
-        $type = UserType::Administrator->value;
+        $role = Role::ADMINISTRATOR;
 
-        if ($this->authService->login($email, $password, $type, $remember)) {
+        if ($this->authService->login($email, $password, $role, $remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');

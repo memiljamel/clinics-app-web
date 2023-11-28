@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\ForgotController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\ResetController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +26,13 @@ Route::middleware('guest')->group(function () {
         Route::post('/forgot-password/send', [ForgotController::class, 'send'])->name('forgot.send');
         Route::get('/reset-password', [ResetController::class, 'index'])->name('reset.index');
         Route::post('/reset-password/recovery', [ResetController::class, 'recovery'])->name('reset.recovery');
+    });
+});
+
+Route::middleware(['auth', 'auth.session'])->group(function () {
+    Route::resource('users', UserController::class);
+
+    Route::prefix('auth')->group(function () {
+        Route::post('/logout', LogoutController::class)->name('logout');
     });
 });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\UserType;
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotRequest;
 use App\Services\AuthService;
@@ -34,9 +34,9 @@ class ForgotController extends Controller
     {
         $email = $request->input('email');
 
-        $type = UserType::Administrator->value;
+        $role = Role::ADMINISTRATOR;
 
-        $message = $this->authService->forgot($email, $type);
+        $message = $this->authService->forgot($email, $role);
 
         return $message === Password::RESET_LINK_SENT
             ? back()->with(['message' => __($message)])
