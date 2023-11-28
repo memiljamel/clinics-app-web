@@ -49,8 +49,8 @@ class AuthServiceImpl implements AuthService
     public function tokenExists(?string $token, ?string $email, ?Role $role): bool
     {
         $user = $this->userRepository->findOneWhere([
-            'email' => $email,
-            'role' => $role,
+            ['email', '=', $email],
+            ['role', '=', $role],
         ]);
 
         return ! is_null($user) && Password::tokenExists($user, $token);
